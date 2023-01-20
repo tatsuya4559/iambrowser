@@ -1,0 +1,21 @@
+#tree-view {
+  scrollbar-gutter: stable;
+  overflow: auto;
+  width: auto;
+  height: 100%;
+  dock: left;
+}
+
+IamBrowser.-show-tree #tree-view {
+  display: block;
+  max-width: 50%;
+}
+
+
+#document-view {
+  overflow: auto scroll;
+  min-width: 100%;
+}
+#document {
+  width: auto;
+}
