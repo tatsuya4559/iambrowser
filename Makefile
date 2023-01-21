@@ -26,11 +26,11 @@ prepare: pipsync .git/hooks/pre-commit ## Prepare for development
 
 .PHONY: run
 run: ## Run application
-	@python main.py
+	python iambrowser/main.py
 
 .PHONY: dev
 dev: ## Run in debug mode
-	textual run --dev main.py
+	textual run --dev iambrowser/main.py
 
 .PHONY: console
 console: ## Run debug console

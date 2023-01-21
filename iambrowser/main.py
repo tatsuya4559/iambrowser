@@ -1,7 +1,6 @@
 import abc
-import os
 import json
-from typing import Any, Callable, TypeVar, Sequence, Union, NamedTuple
+from typing import Any, Callable, TypeVar, Sequence, Union
 from functools import cached_property
 from collections import UserList
 
@@ -14,6 +13,8 @@ from textual.containers import Container, Vertical
 from textual.message import Message, MessageTarget
 from textual.widgets import Footer, Header, Static, Tree, TreeNode, Input
 import pyperclip
+
+from settings import IGNORE_PROFILES
 
 
 T = TypeVar("T")
@@ -200,7 +201,7 @@ class IamTree(Tree[Entry]):
     def load_profiles(self, node: TreeNode[Entry]) -> None:
         profiles = boto3.Session().available_profiles
         for p in profiles:
-            if p in APP_CONFIG.IGNORE_PROFILES:
+            if p in IGNORE_PROFILES:
                 continue
             node.add(p, data=ProfileEntry(profile_name=p))
         node.expand()
@@ -317,16 +318,6 @@ class IamBrowser(App):
         node.data.load(node, force=True)
         # refilter
         self.tree_view.filter_node(self.search_box.value)
-
-
-class AppConfig(NamedTuple):
-    IGNORE_PROFILES: tuple[str]
-
-
-APP_CONFIG: AppConfig
-with open(os.path.expanduser("~/.config/iambrowser/ignore")) as fp:
-    ignore_profiles = tuple(l.strip() for l in fp.readlines())
-    APP_CONFIG = AppConfig(IGNORE_PROFILES=ignore_profiles)
 
 
 if __name__ == "__main__":
