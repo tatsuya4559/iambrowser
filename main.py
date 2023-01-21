@@ -84,6 +84,7 @@ class IamInlinePolicyEntry(Entry):
     def name(self) -> str:
         return self.policy.policy_name
 
+
 class IamAttachedPolicyEntry(Entry):
     is_filterable = True
 
@@ -172,12 +173,12 @@ class ProfileEntry(Entry):
         iam = session.resource("iam")
 
         def load_users(node):
-            for u in iam.users.all(): # type: ignore
+            for u in iam.users.all():  # type: ignore
                 e = IamUserEntry(user=u)
                 node.add(e.name, data=e)
 
         def load_roles(node):
-            for r in iam.roles.all(): # type: ignore
+            for r in iam.roles.all():  # type: ignore
                 e = IamRoleEntry(role=r)
                 node.add(e.name, data=e)
 
@@ -232,7 +233,7 @@ class IamTree(Tree[Entry]):
             return False
 
         for node in self._nodes.values():
-            node._children = FilteredList(node._children) # type: ignore
+            node._children = FilteredList(node._children)  # type: ignore
             node._children.filter(f)
         self.refresh()
 
@@ -325,9 +326,7 @@ class AppConfig(NamedTuple):
 APP_CONFIG: AppConfig
 with open(os.path.expanduser("~/.config/iambrowser/ignore")) as fp:
     ignore_profiles = tuple(l.strip() for l in fp.readlines())
-    APP_CONFIG = AppConfig(
-        IGNORE_PROFILES=ignore_profiles
-    )
+    APP_CONFIG = AppConfig(IGNORE_PROFILES=ignore_profiles)
 
 
 if __name__ == "__main__":
