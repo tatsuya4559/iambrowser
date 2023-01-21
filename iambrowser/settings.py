@@ -9,7 +9,7 @@ def read_text_config(filename: str) -> tuple[str]:
         with path.open() as fp:
             return tuple(line.strip() for line in fp.readlines())
     else:
-        return ("",)
+        return tuple()
 
 
 IGNORE_PROFILES: Final[tuple[str]] = read_text_config("ignore")
