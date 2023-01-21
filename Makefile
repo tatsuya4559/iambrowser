@@ -1,19 +1,28 @@
 .DEFAULT_GOAL := help
 
-pipcompile: requirements.in dev-requirements.in ## Generate requirements.txt
+################################################################################
+# Dependencies
+################################################################################
+
+requirements.txt: requirements.in
 	pip-compile
+
+dev-requirements.txt: dev-requirements.in
 	pip-compile dev-requirements.in
 
 .PHONY: pipsync
-pipsync: pipcompile ## Install python libraries
+pipsync: requirements.txt dev-requirements.txt
 	pip-sync requirements.txt dev-requirements.txt
 
-.PHONY: precommit
-precommit: .pre-commit-config.yaml ## Install pre-commit hooks
+.git/hooks/pre-commit: .pre-commit-config.yaml
 	pre-commit install
 
+################################################################################
+# Commands
+################################################################################
+
 .PHONY: prepare
-prepare: pipsync precommit ## Prepare for development
+prepare: pipsync .git/hooks/pre-commit ## Prepare for development
 
 .PHONY: run
 run: ## Run application
