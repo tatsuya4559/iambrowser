@@ -6,6 +6,6 @@ You can browse iam policy document accross profiles.
 
 ```
 $ pip install pip-tools
-$ make pipsync
+$ make prepare
 $ make run
 ```
