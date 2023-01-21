@@ -1,2 +1,2 @@
 pip-tools
-black
+pre-commit
